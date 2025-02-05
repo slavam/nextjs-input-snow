@@ -1,59 +1,50 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import { z } from 'zod'
+// import { z } from 'zod'
 
-// const FormSchema = z.object({                                                                                     
-//     groups1_0: z.string(),
-    // customerId: z.string({                                                                                          
-    //     invalid_type_error: 'Please select a customer.',
-    // }),                                                                                                           
-    // amount: z.coerce.number()
-    // .gt(0, { message: 'Please enter an amount greater than $0.' }),                                               
-    // status: z.enum(['pending', 'paid'],{
-    //     invalid_type_error: 'Please select an invoice status.',                                                     
-    // }),
-//     date: z.string(),                                                                                           
-// })
+// const FormSchema = z.object({
+//     section1: z.string().
+//     min(5, {message: "Раздел 1 не может быть меньше 5 символов.",}).
+//     max(65,{message:'Раздел 1 не может быть длиннее 65 символов.'}),
+//   })
 
-const FormSchema = z.object({
-    section1: z.string().
-    min(5, {message: "Раздел 1 не может быть меньше 5 символов.",}).
-    max(59,{message:'Раздел 1 не может быть длиннее 59 символов.'}),
-  })
+// export type State = {
+//   errors?:{
+//     section1?: string[]
+//   }
+//   message?: string | null
+// }
 
-export type State = {
-    errors?: {                                                                                                      
-      telegram?: string[];
-      reportDate?: string[];                                                                                            
-      sourceCode?: string[];
-    };                                                                                                            
-    message?: string | null;
-  }
-// const CreateSnow = FormSchema.omit({ date: true})
+// export async function createSnow( prevState: State, formData: FormData) {     
+//   console.log(JSON.stringify(formData))                                  
+//     const validatedFields = FormSchema.safeParse({
+//       section1: formData.get('section1')
+//     })
+//   if (!validatedFields.success) {                                                                                 
+//     return {
+//       errors: validatedFields.error.flatten().fieldErrors,                                                          
+//       message: 'Ошибка в телеграмме.',
+//     };                                                                                                          
+//   }
+//   const { section1 } = validatedFields.data                                                   
+//   try {
+//     // let ipAddress = ((url.indexOf('localhost')>-1) || (url.indexOf('//10.54.')>-1))? '10.54.1.11:8083':'31.133.32.14:8083' 
+//     let ipAddress = '10.54.1.11:8083'
+//     let data = await fetch(`http://${ipAddress}/conservations/save_snow_data?mode=no-cors&telegram=${formData.get('section1')}`) //&report_date=${formData.get('reportDate')}&source_code=${formData.get('sourceCode')}`)
+//     let observations = await data.json()
+//     return observations
+//   } catch (error) {                                                                                               
+//     return {message: 'Ошибка при сохранении в ЦСДН.'}
+//   }
+// }
 
-export async function createSnow( prevState: State, formData: FormData) {                                       
-    const validatedFields = CreateSnow.safeParse({
-        telegram: formData.get('telegram'),                                                                       
-        reportDate: formData.get('reportDate'),
-        sourceCode: formData.get('sourceCode'),                                                                             
-    })
-  if (!validatedFields.success) {                                                                                 
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,                                                          
-      message: 'Ошибка в телеграмме.',
-    };                                                                                                          
-}
-  const { section1 } = validatedFields.data                                                   
-//   const amountInCents = amount * 100
-//   const date = new Date().toISOString().split('T')[0]                                                           
+export async function saveSnowData(telegram: string, reportDate: string, sourceCode: string, url: string){
   try {
-    // SOAP API
+    let ipAddress = ((url.indexOf('localhost')>-1) || (url.indexOf('//10.54.')>-1))? '10.54.1.11:8083':'31.133.32.14:8083' 
+    let query = `http://${ipAddress}/conservations/save_snow_data?mode=no-cors&telegram=${telegram}&report_date=${reportDate}&source_code=${sourceCode}&format=json`
+    await fetch(query)
   } catch (error) {                                                                                               
+    console.log(JSON.stringify(error))
     return {message: 'Ошибка при сохранении в ЦСДН.'}
   }
-
-  revalidatePath('/dashboard/invoices')                                                                         
-  redirect('/dashboard/invoices')
 }

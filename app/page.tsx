@@ -1,5 +1,5 @@
 import AcmeLogo from '@/app/ui/acme-logo'
-import SnowForm from './ui/create-form';
+import SnowForm from './ui/create-form'
 
 export default function Home() {
   return (
