@@ -25,7 +25,7 @@ const SnowSchema = z.object({
 })
 
 let section0 = ''
-let today = new Date()
+const today = new Date()
 
 export default function SnowForm() {
   const [currentUrl, setCurrentUrl] = useState("")
