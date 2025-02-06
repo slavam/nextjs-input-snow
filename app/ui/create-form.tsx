@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { saveSnowData } from "../lib/action"
-import { ChangeEvent, useState, useEffect } from "react"
+import { ChangeEvent, useState } from "react"
 
 
 
@@ -28,7 +28,8 @@ let section0 = ''
 const today = new Date()
 
 export default function SnowForm() {
-  const [currentUrl, setCurrentUrl] = useState("99999")
+  const currentUrl = '99999'
+  // const [currentUrl, setCurrentUrl] = useState("99999")
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
   //     // Access the current URL using the window object
@@ -40,7 +41,7 @@ export default function SnowForm() {
   const [observDate, setObservDate] = useState(today.toISOString().slice(0,10))
   const pointCode = (currentUrl.indexOf('pointCode')>-1)? currentUrl.slice(-5):'99999'
   function onSubmit(values: z.infer<typeof SnowSchema>) {
-    saveSnowData(`${section0} ${values.section1}=`, observDate, pointCode, currentUrl)
+    saveSnowData(`${section0} ${values.section1}=`, observDate, pointCode)
     alert('Данные сохранены')
     // {"response":{"success_count":"13","failed_count":"0","detail_message":null,"@xmlns:tns":"urn:CSDNIntf-ICSDN"}}
   }

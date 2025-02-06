@@ -38,7 +38,7 @@
 //   }
 // }
 
-export async function saveSnowData(telegram: string, reportDate: string, sourceCode: string, url: string){
+export async function saveSnowData(telegram: string, reportDate: string, sourceCode: string){
   try {
     const ipAddress = '31.133.32.14:8083' //((url.indexOf('localhost')>-1) || (url.indexOf('//10.54.')>-1))? '10.54.1.11:8083':'31.133.32.14:8083' 
     // const query = `http://${ipAddress}/conservations/save_snow_data?mode=no-cors&telegram=${telegram}&report_date=${reportDate}&source_code=${sourceCode}&format=json`
