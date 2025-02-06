@@ -28,13 +28,13 @@ let section0 = ''
 const today = new Date()
 
 export default function SnowForm() {
-  const [currentUrl, setCurrentUrl] = useState("")
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Access the current URL using the window object
-      setCurrentUrl(window.location.href);
-    }
-  }, [])
+  const [currentUrl, setCurrentUrl] = useState("99999")
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     // Access the current URL using the window object
+  //     setCurrentUrl(window.location.href);
+  //   }
+  // }, [])
   
   // console.log(currentUrl)
   const [observDate, setObservDate] = useState(today.toISOString().slice(0,10))
